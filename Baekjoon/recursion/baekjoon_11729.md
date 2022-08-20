@@ -1,5 +1,5 @@
-# 백준 17478 - 재귀함수가 뭔가요
-- https://www.acmicpc.net/problem/17478
+# 백준 11729 - 하노이 탑 이동 순서
+- https://www.acmicpc.net/problem/11729
 
 ## 코드
 ```java
