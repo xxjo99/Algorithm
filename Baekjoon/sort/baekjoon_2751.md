@@ -42,6 +42,8 @@ public class Main {
 
 Arrays.sort()를 사용하면 시간초과가 나온다.
 
-문제를 풀기위해서는 O(nlogn)의 시간복잡도가 나와야하지만 Arrays.sort()의 경우 최악의 경우 O(n^2)이 나오기때문이다.
+문제를 풀기위해서는 O(nlogn)의 시간복잡도가 나와야하지만 Arrays.sort()는 최악의 경우 O(n^2)이 나오기때문이다.
 
-그렇기때문에 다른 내장정렬함수인 Collections.sort()와 StringBuilder을 사용하면 된다.
+그렇기때문에 Collections 클래스의 메소드인 Collections.sort()와 StringBuilder을 사용한다.
+
+StringBuilder의 경우 문자열을 더할 때 기존의 데이터에 더하게 되므로 속도가 빠르다.
