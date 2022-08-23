@@ -1,5 +1,5 @@
-# 백준 2751 - 수 정렬하기 2
-- https://www.acmicpc.net/problem/1436
+# 백준 10814 - 나이순 정렬
+- https://www.acmicpc.net/problem/10814
 
 ## 코드
 ``` java
@@ -42,18 +42,22 @@ public class Main {
 	}
 
 }
-
-
-
 ```
 
 ## 풀이
 정렬문제
 
-Arrays.sort()를 사용하면 시간초과가 나온다.
+나이를 오름차순으로, 같은 나이일경우 입력된 순서대로 정렬해야 한다.
 
-문제를 풀기위해서는 O(nlogn)의 시간복잡도가 나와야하지만 Arrays.sort()는 최악의 경우 O(n^2)이 나오기때문이다.
+```
+Arrays.sort(arr, new Comparator<String[]>() {
+	@Override
+	public int compare(String[] s1, String[] s2) {
+		return Integer.parseInt(s1[0]) - Integer.parseInt(s2[0]);
+	}
+});
+```
 
-그렇기때문에 Collections 클래스의 메소드인 Collections.sort()와 StringBuilder을 사용한다.
+이차원 배열을 생성해 값을 넣고 Arrays.sort()를 사용해 나이 순서대로 정렬한다.
 
-StringBuilder의 경우 문자열을 더할 때 기존의 데이터에 더하게 되므로 속도가 빠르다.
+Comparator의 compare를 override해서 두 값의 위치를 바꿀지 말지 결정한다. s1과 s2의 차를 return해서 차가 같다면 바꾸지 않고 그렇지 않다면 두 값의 위치를 바꾼다. 
