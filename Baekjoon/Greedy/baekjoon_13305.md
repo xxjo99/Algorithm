@@ -1,11 +1,12 @@
-# 백준 13305 - 주유소
-- https://www.acmicpc.net/problem/13305
+# 백준 11399 - ATM
+- https://www.acmicpc.net/problem/11399
 
 ## 코드
 ``` java
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -15,31 +16,26 @@ public class Main {
 
 		int n = Integer.parseInt(br.readLine());
 
-		long[] dist = new long[n - 1];
-		long[] cost = new long[n];
+		int[] arr = new int[n];
+		int[] result = new int[n];
 
 		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-		for (int i = 0; i < n - 1; i++) {
-			dist[i] = Long.parseLong(st.nextToken());
-		}
-
-		st = new StringTokenizer(br.readLine(), " ");
 		for (int i = 0; i < n; i++) {
-			cost[i] = Long.parseLong(st.nextToken());
+			arr[i] = Integer.parseInt(st.nextToken());
+		}
+		Arrays.sort(arr);
+
+		result[0] = arr[0];
+
+		for (int i = 1; i < n; i++) {
+			result[i] = result[i - 1] + arr[i];
 		}
 
-		long sum = 0;
-		long min = cost[0];
+		int sum = 0;
 
-		for (int i = 0; i < n - 1; i++) {
-
-			if (cost[i] < min) {
-				min = cost[i];
-			}
-
-			sum += (min * dist[i]);
+		for (int i = 0; i < n; i++) {
+			sum += result[i];
 		}
-
 		System.out.println(sum);
 
 	}
@@ -47,32 +43,40 @@ public class Main {
 ```
 
 ## 풀이
-주어진 도시들의 가장 왼쪽의 도시에서 가장 오른쪽 도시로 가는 최소 비용을 구하는 문제.
+각 사람마다 ATM에서 돈을 인출하는 시간이 주어지며 각 사람이 돈을 인출하는데 필요한 시간의 합의 최솟값을 구하는 문제
 
-도시의 개수, 도시들간의 이동 거리, 리터당 기름의 가격이 주어진다. 그리고 첫 번째 주유소에서는 무조건 주유를 해야한다.
+사람간의 대기시간을 최소화하면 최소값을 구할 수 있다.
 
-최소 비용을 구하기 위해서는 리터당 기름의 가격이 가장 싼 도시에서 주유해야 한다. 즉 기름값이 내림차순일때 주유하면 최소비용으로 갈 수 있다.
-
-```
-long[] dist = new long[n - 1];
-long[] cost = new long[n];
-```
-거리를 저장할 dist 배열, 리터당 기름값을 저장할 cost배열을 생성했다. int형의 범위를 초과할 수 있으므로 long타입으로 선언해주었다.
+즉 입력받은 시간을 오름차순으로 정렬을 해주고 대기시간을 구해주면 된다.
 
 ```
-long sum = 0;
-long min = cost[0];
+int[] arr = new int[n];
+int[] result = new int[n];
 
-for (int i = 0; i < n - 1; i++) {
+StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+for (int i = 0; i < n; i++) {
+	arr[i] = Integer.parseInt(st.nextToken());
+}
+Arrays.sort(arr);
+```
+주어진 입력값을 저장할 배열 arr과 사람들이 돈을 뽑기위해 몇분 걸리는지 저장할 배열 result를 생성해주었다.
+그후 입력을 받고 오름차순으로 정렬을 해야하기 때문에 Arrays.sort()를 이용해 정렬해주었다.
+```
+result[0] = arr[0];
 
-  if (cost[i] < min) {
-    min = cost[i];
-  }
+for (int i = 1; i < n; i++) {
+	result[i] = result[i - 1] + arr[i];
+}
 
-  sum += (min * dist[i]);
+int sum = 0;
+
+for (int i = 0; i < n; i++) {
+	sum += result[i];
 }
 ```
-총 비용을 저장할 sum변수와 이전까지의 주유의 최소비용인 min변수를 생성했다. 
-첫 번째 주유소에서는 무조건 주유를 해야하므로 최초의 최소비용은 cost[0]으로 선언해주었다.
 
-반복문을 돌면서 해당 도시의 주유 비용의 min보다 쌀 경우 min을 해당 도시의 주유비용으로 갱신해준다. 그리고 sum에 비용을 계산해서 더해주면 된다.
+result[0]는 자신의 시간이 돈뽑는 시간과 동일하기 때문에 같은 값을 저장해준다.
+
+두번째 사람부터 반복문을 돌면서 걸리는 시간을 계산해서 저장해준다.
+
+그후 result의 모든값을 더해서 출력해주면 된다.
